@@ -1,1 +1,84 @@
+---
+title: "visualise_expenses18_20_Lbyrne"
+author: "Umar Hassan"
+date: "14 October 2020"
+output: html_document
+---
 
+## Import csv data for individual claims for expenses covering 2016 to 2020
+
+Import individual claims for expenses from 2018 to 2020.
+
+```{r}
+claims1819 <- read.csv("Individual_claims_for_18_19.csv")
+claims1920 <- read.csv("Individual_claims_for_19_20.csv")
+```
+
+## Summary of expenses claimed for 1819
+
+I want to know how many expenses were claimed by amount for 2018/19.
+
+```{r}
+summary(claims1819$Amount.Claimed)
+```
+
+## Summary of expenses claimed for 1920
+
+I want to know how many expenses were claimed by amount for 2019/20.
+
+```{r}
+summary(claims1920$Amount.Claimed)
+```
+
+## Join the datasets together
+
+I want to join the datasets for each expenses year from 18/19 to 19/20 using the rbind function.
+
+```{r}
+claimscombined_1820 <- rbind(claims1819, claims1920)
+```
+
+## Write the combined expenses file into a csv to access in Excel.
+
+```{r}
+write.csv(claimscombined_1820, "expenses2018to2020.csv")
+```
+
+## Create a subset, focusing on Liam Byrne MP (Lab, Hodge Hill)
+
+```{r}
+lbyrnemp_expenses <- subset(claimscombined_1820, claimscombined_1820$MP.s.Name == "Liam Byrne")
+```
+
+## Maximum expenses claimed for Liam Byrne MP (Lab, Hodge Hill)
+
+How much did Liam Byrne MP claim in terms of maximum expenses?
+
+```{r}
+lbyrne_maxexp <- max(claimscombined_1820$Amount.Claimed)
+lbyrne_maxexp
+```
+
+## Minimum expenses claimed for Liam Byrne MP (Lab, Hodge Hill)
+
+```{r}
+lbyrne_minexp <- min(claimscombined_1820$Amount.Claimed)
+lbyrne_minexp
+```
+
+#Visualise the expense categories in ggplot2
+
+Now, what we need to do is open up the tidyverse package, which includes ggplot2 to visualise our barplot for expenses.
+
+```{r}
+install.packages("tidyverse")#Only do this if you don't have the tidyverse package installed on your machine.
+library(tidyverse)
+library(scales)#This adds the currency to the data as we're visualising financial data in the form of MPs expenses.
+```
+
+Create the barplot
+
+```{r}
+lbyrne_barplot <- ggplot(lbyrnemp_expenses) + geom_bar(aes(x=Category), fill="#FFA500") + coord_flip() + labs(title = "How many times did Liam Byrne MP make an expense by category?", caption = "Source:Independent Parliamentary Standards Authority | Visualisation: Umar Hassan") + ylab("Category amount") + theme_set(theme_bw())
+lbyrne_barplot
+```
