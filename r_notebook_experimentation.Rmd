@@ -21,15 +21,15 @@ myage <- 24
 
 To import data in R, you can use a function called read.csv().
 ```{r}
-read.csv("Individual_claims_for_16_17.csv")
+read.csv("Individual_claims_for_16_17.csv", stringsAsFactors = FALSE)
 ```
 
 To store data that you can read in, you need to assign it to a variable like this:
 
 ```{r import1617}
 #Import data from CSV
-claims1617 <- read.csv("Individual_claims_for_16_17.csv")
-claims1718 <- read.csv("Individual_claims_for_17_18.csv")
+claims1617 <- read.csv("Individual_claims_for_16_17.csv", stringsAsFactors = FALSE)
+claims1718 <- read.csv("Individual_claims_for_17_18.csv", stringsAsFactors = FALSE)
 ```
 
 The variable we've created is a **dataframe** object.
@@ -49,6 +49,15 @@ We can now export this as a new CSV as write.csv.
 ```{r}
 write.csv(claims1618combined, "claims16to18.csv")
 ```
+
+## Import different types of data
+
+What happens when you import different types of data, which are not CSV?
+
+```{r}
+
+```
+
 
 ## Different types of variables
 
