@@ -1,0 +1,123 @@
+---
+title: "experimentation"
+author: "Umar Hassan"
+date: "14 October 2020"
+output: html_document
+---
+
+# My first notebook
+
+Some basic stuff in R
+```{r}
+myname <- "Umar"
+```
+
+Let's store a number
+```{r}
+myage <- 24
+```
+
+## Importing data
+
+To import data in R, you can use a function called read.csv().
+```{r}
+read.csv("Individual_claims_for_16_17.csv", stringsAsFactors = FALSE)
+```
+
+To store data that you can read in, you need to assign it to a variable like this:
+
+```{r import1617}
+#Import data from CSV
+claims1617 <- read.csv("Individual_claims_for_16_17.csv", stringsAsFactors = FALSE)
+claims1718 <- read.csv("Individual_claims_for_17_18.csv", stringsAsFactors = FALSE)
+```
+
+The variable we've created is a **dataframe** object.
+```{r}
+claims1718$Expense.Type
+```
+
+## Merge the datasets together for claims from 16/17 and 17/18.
+```{r mergeclaims}
+claims1618combined <- rbind(claims1617, claims1718)
+```
+
+##Export data
+
+We can now export this as a new CSV as write.csv.
+
+```{r}
+write.csv(claims1618combined, "claims16to18.csv")
+```
+
+## Import different types of data
+
+What happens when you import different types of data, which are not CSV?
+
+```{r}
+
+```
+
+
+## Different types of variables
+
+Touched on string and number variables, as well as df variables. 
+
+Vectors are another type of variable and used to store a list.
+
+This can be created using the c() function.
+
+```{r}
+listofages <- c(10,20,60,43)
+listofnames <- c("Allen", "Paul", "Kevin", "Shawn")
+listofbooleans <- c(TRUE, FALSE, TRUE, FALSE)
+```
+
+A dataframe is made up of a number of vectors (columns).
+```{r}
+mydataframe <- data.frame(listofnames, listofages, listofbooleans)
+```
+
+Use these functions to find out the properties of your vector.
+```{r}
+typeof(listofages)
+length(listofnames)
+is.vector(listofages)
+class(listofbooleans)
+```
+
+Extract vector from dataframe using the $ sign.
+```{r}
+expensenames <- claims1617$MP.s.Name
+```
+
+```{r}
+statuses <- claims1617$Status
+```
+
+```{r}
+table(statuses)
+```
+
+I want to create a subset of my data and this is how you would do it.
+```{r subset claims data from 1 April 2016 to 1 April 2017}
+claims1Apr16 <- subset(claims1617, claims1617$Date == "01/04/2016")
+claims31Mar17 <- subset(claims1617, claims1617$Date == "31/03/2017")
+```
+
+How do you create a basic barplot in R? This is how you would do it.
+```{r basic barplot}
+barplot(height = claims1618combined$Amount.Paid)
+barplot(height = claims1618combined$Amount.Paid, ylab = "Expense amount paid", xlab = "Date")
+```
+
+A variable in R can be deleted like this.
+```{r}
+rm(claims_barplot)
+```
+
+You can delete as many variables as you like to make your environment workspace clean and tidy.
+
+```{r}
+rm(claims30Apr16, claims31Apr16)
+```
