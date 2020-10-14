@@ -42,6 +42,14 @@ claims1718$Expense.Type
 claims1618combined <- rbind(claims1617, claims1718)
 ```
 
+## Use cbind function
+```{r}
+MPs1617 <- data.frame(MPs_names=c(claims1617$MP.s.Name))
+expenses1617 <- data.frame(Expenses=c(claims1617$Expense.Type))
+expenseamountclaimed1617 <- data.frame(Paid=c(claims1617$Amount.Claimed))
+mps_1617_amountclaimed <- cbind(MPs1617,expenses1617, expenseamountclaimed1617)
+```
+
 ##Export data
 
 We can now export this as a new CSV as write.csv.
