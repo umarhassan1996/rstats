@@ -1,0 +1,7 @@
+mk dir r_markdown_experiment
+
+touch r_markdown_experiment/.gitkeep
+
+git add *
+git commit -m "feat: Create directory structure"
+git push
