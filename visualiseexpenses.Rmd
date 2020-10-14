@@ -1,5 +1,5 @@
 ---
-title: "visualise_expenses16_20"
+title: "visualise_expenses18_20_Lbyrne"
 author: "Umar Hassan"
 date: "14 October 2020"
 output: html_document
@@ -14,7 +14,7 @@ claims1819 <- read.csv("Individual_claims_for_18_19.csv")
 claims1920 <- read.csv("Individual_claims_for_19_20.csv")
 ```
 
-## Summary of expenses claimed for 1617
+## Summary of expenses claimed for 1819
 
 I want to know how many expenses were claimed by amount for 2018/19.
 
