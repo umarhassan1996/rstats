@@ -1,0 +1,64 @@
+---
+title: "westmids_drugsoutcomesaug20"
+author: "Umar Hassan"
+date: "15 October 2020"
+output: html_document
+---
+
+##Import West Midlands Police crime data for August 2020 into RStudio.
+
+Import west-mids-street data into R for August 2020.
+
+```{r}
+wmcrimesaug20 <- read.csv("2020-08-west-midlands-street.csv")
+```
+
+##Create simple pivot table in RStudio, focusing on Crime.type.
+
+```{r - simple pivot table}
+table(wmcrimesaug20$Crime.type)
+```
+
+## I want to drill in further and focus on a particular type of crime so I need to activate the tidyverse library to do this.
+
+```{r}
+install.packages("tidyverse")#Only do this if you don't have the tidyverse package installed on your machine.
+library(tidyverse)
+```
+
+This is based upon a tutorial I found from [Glyn Mottershead's website]("https://www.glynmottershead.com/tutorial/tidyverse/pivot-tables-in-r/") on creating pivot tables using the tidyverse library to do it, using police data.
+
+##Drill pivot table to focus on drugs
+
+```{r}
+drugs <- wmcrimesaug20 %>%
+  filter(Crime.type == "Drugs") %>%
+    rename("Outcome" = "Last.outcome.category", "Crimes" = "Crime.type") %>%
+  mutate(Outcome = recode(Outcome,
+    "Investigation complete; no suspect identified" = "No suspect identified")) %>%
+  group_by(Outcome) %>%
+  summarise(outcome_count = n()) %>%
+  arrange(desc(outcome_count))
+```
+
+#Create csv file for drugs pivot table
+```{r}
+write.csv(drugs, "drugs_westmidspolaug20_pivot.csv")
+```
+
+
+## Visualise data using the ggplot2 package.
+
+```{r}
+drug_outcomes <-ggplot(drugs, aes(x= reorder(Outcome, outcome_count) ,outcome_count)) + geom_bar(stat = "identity", fill = "#0564FF") + labs(title = "Outcome for drugs crimes by category for West Midlands Police for August 2020", caption = "Source: West Midlands Police | Chart: Umar Hassan") + theme_set(theme_bw()) + xlab("") + ylab("") + coord_flip()
+drug_outcomes
+```
+
+#Export image of barplot into png.image.
+
+Create png.image for barplot for Drugs outcomes for West Mids police.
+
+```{r}
+ggsave("drug_outcomes.png", height= 6, width = 12, dpi=200)
+```
+
